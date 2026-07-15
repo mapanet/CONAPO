@@ -24,7 +24,7 @@ Estos datos se utilizan para enriquecer tabla Boundaries (delimitacion de coloni
 
 ### Índice de Documentación
 
-[Importar INEGI Censo 2020 (nivel localidad)](docs/01_Importar_INEGI_Censo_2020_nivel_localidad.md)   
+[01 Importar INEGI Censo 2020 (nivel localidad)](docs/01_Importar_INEGI_Censo_2020_nivel_localidad.md)   
 
 - Población total
 - Viviendas totales
@@ -33,15 +33,7 @@ Estos datos se utilizan para enriquecer tabla Boundaries (delimitacion de coloni
 - Normalización de CVEGEO y claves territoriales
 - Uso para enriquecer Boundaries con población por localidad
 
-[Importar_Catalogo de Localidades_2025](docs/02_Importar_Localidades_2025.md)   
-
-- Nombres oficiales de localidades
-- Claves de municipio y estado
-- Tipo de localidad (urbana/rural)
-- Integración con Boundaries para etiquetado territorial
-- Base para fallback rural en NSE
-
-[Importar_INEGI_Censo_2020_AGEB](docs/03_Importar_INEGI_Censo_2020_AGEB.md)   
+[02 Importar_INEGI_Censo_2020_AGEB](docs/03_Importar_INEGI_Censo_2020_AGEB.md)   
 
 - Población por AGEB
 - Viviendas totales y ocupadas
@@ -49,7 +41,15 @@ Estos datos se utilizan para enriquecer tabla Boundaries (delimitacion de coloni
 - Normalización de CVEGEO
 - Uso para interpolación AGEB ↔ colonia (NSE y población)
 
-[Importar_AGEEML_2026](docs/04_Importar_AGEEML_2026.md)   
+[03 Importar_Catalogo de Localidades_2025](docs/02_Importar_Localidades_2025.md)   
+
+- Nombres oficiales de localidades
+- Claves de municipio y estado
+- Tipo de localidad (urbana/rural)
+- Integración con Boundaries para etiquetado territorial
+- Base para fallback rural en NSE
+
+[04 Importar_AGEEML_2026](docs/04_Importar_AGEEML_2026.md)   
 
 Importación del AGEEML 2026 (Localidades y Municipios):
 
@@ -59,7 +59,7 @@ Importación del AGEEML 2026 (Localidades y Municipios):
 - Base territorial para Boundaries
 - Corrección de nombres y metadatos en capas 1–5
 
-[Importar proyecciones CONAPO 2020–2026](docs/05_Importar_CONAPO_Population.md)   
+[05 Importar proyecciones CONAPO 2020–2026](docs/05_Importar_CONAPO_Population.md)   
 
 - Población estimada por municipio
 - Crecimiento anual
