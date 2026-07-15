@@ -123,6 +123,6 @@ Población actualizada con CONAPO.
 **Layer 1 — Estados**
 Agregación estatal y metadatos AGEEML.
 
-## Estructura del Repositorio
+
 
 
