@@ -1,4 +1,4 @@
-# 21 — INEGI Census 2020 (Block-Level Data)
+# 02 — INEGI Census 2020 (Block-Level Data)
 
 This dataset contains **Census 2020 population and dwelling data at the block level**  
 (AGEB + Manzana). It is a core input for the NSE pipeline.
