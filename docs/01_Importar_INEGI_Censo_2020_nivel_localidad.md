@@ -1,62 +1,62 @@
-# 20 — INEGI Census 2020 (Locality-Level Data)
+# 01 — INEGI Censo 2020 (Datos a Nivel Localidad)
 
-This dataset contains **Census 2020 population and dwelling data at the LOCALITY level**  
-It is a enrichment input for the Boundaries layer 6 Population, Dwellings, Occupied_Dwellings.
+Este dataset contiene **datos de población y viviendas del Censo 2020 a nivel LOCALIDAD.**
+Es un insumo de enriquecimiento para la capa 6 de Boundaries: **Population, Dwellings, Occupied_Dwellings.**
 
 ---
 
-## 📌 Important Clarifications
+## 📌 Aclaraciones Importantes
 
-- **Census 2020 locality-level dataset** to obtain **Population**, **Dwellings**, and **Occupied_Dwellings** at the **LOCALITY** level.
-- Dataset used in **NSE Step 5.9.1** to update **Population, Dwellings, Occupied_Dwellings in boundaries layer 6 (DCAH Neighborhoods).
-- Later we can compute: Unoccupied_Dwellings = Dwellings – Occupied_Dwellings
+- Dataset del Censo 2020 a nivel localidad para obtener Población, Viviendas y Viviendas Habitadas a nivel LOCALIDAD.
+- Dataset utilizado en **NSE Paso 5.9.1** para actualizar **Population, Dwellings, Occupied_Dwellings** en la **capa 6 de Boundaries (Colonias DCAH).**
+- Posteriormente se puede calcular: **Unoccupied_Dwellings = Dwellings – Occupied_Dwellings**
 
-## Resulting Table: `INEGI_Censo_2020_AGEB`
+## Tabla Resultante: `INEGI_Censo_2020_AGEB`
 
-| Column | Type | Notes |
+| Columna | Tipe | Notas |
 |--------|------|--------|
 | CVEGEO | varchar(13) | Geocode (ENTIDAD + MUN + LOC |
-| ENTIDAD | varchar(2) | State code |
-| NOM_ENT | nvarchar(85) | State name |
-| MUN | varchar(3) | Municipality code |
-| NOM_MUN | nvarchar(85) | Municipality name |
-| LOC | varchar(4) | Locality code |
-| NOM_LOC | nvarchar(110) | Locality name |
-| LATITUD | decimal(12, 6) | Latitude |
-| LONGITUD | decimal(12, 6) | Longitude |
-| POBTOT | int | Population |
-| VIVTOT | int | Dwelings |
-| TVIVHAB | int | Occupied Dwelings |
+| ENTIDAD | varchar(2) | Código Estado |
+| NOM_ENT | nvarchar(85) | Nombre Estado |
+| MUN | varchar(3) | Código Municipio |
+| NOM_MUN | nvarchar(85) | Nombre Municipio |
+| LOC | varchar(4) | Código Localidad |
+| NOM_LOC | nvarchar(110) | Nombre Localidad |
+| LATITUD | decimal(12, 6) | Latitud |
+| LONGITUD | decimal(12, 6) | Longitud |
+| POBTOT | int | Población |
+| VIVTOT | int | Viviendas |
+| TVIVHAB | int | Viviendas Ocupadas |
 
-Working folder:
+Carpeta de trabajo:
 
 D:\AXSI\INEGI\Censo_2020\Tabulados_AGEB_Localidad
 
 
 ---
 
-# 1 — Download Census 2020 Data (SCITEL)
+# 1 — Descargar Datos del Censo 2020 (SCITEL)
 
-We download Census 2020 block-level data from **INEGI SCITEL**:
+Descargamos los datos del Censo 2020 a nivel *localidad* desde INEGI SCITEL:
 
 **URL:**  
 https://www.inegi.org.mx/app/scitel/Default?ev=9  
-**Section:** *Resultados por loccalidad (ITER) 2020*
+**Sección:** Resultados por localidad (ITER) 2020
 
 [<img src="/docs/images/Censo_2020_ITER_localidad.png" width="1000">](/docsCenso_2020_ITER_localidad.png)
 
 ---
 
-### IMPORTANT — Do NOT use the gray CSV or XLSX buttons
+### IMPORTANTE — NO usar los botones grises de CSV o XLSX
 
-In the **left panel**, you will see **gray CSV and XLSX** buttons.  
-These export the **full dataset**, which contains to many fields we do not need.
+En el **panel izquierdo**, verás botones grises de CSV y XLSX.
+Estos exportan el dataset completo, el cual contiene demasiados campos que no necesitamos.
 
-We only want:
+Solo queremos:
 
-- **Population Total**  
-- **Total Dwellings**  
-- **Occupied Dwellings**  
+- Población Total
+- Viviendas Totales
+- Viviendas Habitadas
 
 ---
 
