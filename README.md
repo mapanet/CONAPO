@@ -1,6 +1,6 @@
 # INEGI Importación de datos terroriales INEGI 
 
-## 1. Overview
+## Objectivo
 
 Este repositorio contiene los procedimientos oficiales utilizados para importar, normalizar y preparar datasets de INEGI, AGEEML, CONAPO y Censo 2020, con el objetivo de enriquecer las capas territoriales de Boundaries con información demográfica y territorial confiable.
 
@@ -15,7 +15,7 @@ Los scripts y documentos dentro de /docs describen paso a paso cómo obtener:
 - Crecimiento poblacional desde el Censo 2020 a la fecha
 - Metadatos territoriales para integración con Boundaries
 
-Estos datos se utilizan para enriquecer tabla Boundaries con:   
+Estos datos se utilizan para enriquecer tabla Boundaries (delimitacion de colonias) creada en el reporitiorio: https://github.com/mapanet/NSE   
 
 - Layer 6 — Colonias
 - Layer 5 — Ciudades
@@ -24,8 +24,105 @@ Estos datos se utilizan para enriquecer tabla Boundaries con:
 
 ### Índice de Documentación
 
-01 — Import INEGI Census 2020 (Locality-Level Data).md
+[Importar INEGI Censo 2020 (nivel localidad)](docs/01 — Importar INEGI Censo 2020 (nivel localidad).md)   
 
-[<img src="/docs/images/CONAPO_2026.png" width="1000">](/docs/images/CONAPO-2026.png)
+- Población total
+- Viviendas totales
+- Viviendas habitadas
+- Claves de localidad, municipio y estado
+- Normalización de CVEGEO y claves territoriales
+- Uso para enriquecer Boundaries con población por localidad
+
+[Importar_Catalogo de Localidades_2025](docs/02 — Importar_Localidades_2025.md)   
+
+- Nombres oficiales de localidades
+- Claves de municipio y estado
+- Tipo de localidad (urbana/rural)
+- Integración con Boundaries para etiquetado territorial
+- Base para fallback rural en NSE
+
+[Importar_INEGI_Censo_2020_AGEB](docs/03 — Importar_INEGI_Censo_2020_AGEB.md)   
+
+- Población por AGEB
+- Viviendas totales y ocupadas
+- Variables demográficas clave
+- Normalización de CVEGEO
+- Uso para interpolación AGEB ↔ colonia (NSE y población)
+
+[Importar_AGEEML_2026](docs/Importar_AGEEML_2026.md)   
+
+Importación del AGEEML 2026 (Localidades y Municipios):
+
+- Nombres oficiales de municipios y estados
+- Claves normalizadas
+- Localidades actualizadas 2026
+- Base territorial para Boundaries
+- Corrección de nombres y metadatos en capas 1–5
+
+[Importación de proyecciones CONAPO 2020–2026](docs/07 — Importar_CONAPO_Population.md)   
+
+- Población estimada por municipio
+- Crecimiento anual
+- Proyección desde Censo 2020 a 2026
+- Cálculo de población actualizada para Boundaries
+- Integración con capas municipales y estatales
+
+## Objetivo del Repositorio
+
+Este repositorio existe para:
+
+1. Centralizar todos los procedimientos de importación de datos oficiales 
+INEGI, AGEEML, CONAPO y Censo 2020.
+
+2. Normalizar claves territoriales
+
+- CVEGEO
+- Claves de localidad
+- Claves de municipio
+- Claves de estado
+
+3. Generar datasets consistentes para Boundaries (colonias) Incluyendo:
+
+- Population
+- Dwellings
+- Occupied_Dwellings
+- Growth_2020_2026
+- Locality
+- Municipalit
+- State
+
+4. Mantener trazabilidad y reproducibilidad
+
+Cada documento explica:
+
+- Fuente oficial
+- Pasos de importación
+- Normalización
+- Validaciones
+- Integración con SQL y geoprocesos
+
+5. Servir como base para pipelines mayores Como:
+
+- NSE AMAI por colonia ( https://github.com/mapanet/NSE )
+- Crecimiento poblacional municipal
+- Actualización de capas territoriales
+
+## Integración con Boundaries
+
+Los datos importados aquí alimentan:
+
+**Layer 6 — Colonias**
+Interpolación AGEB ↔ colonia para población y viviendas.
+
+**Layer 5 — Ciudades**
+Agregación por localidad y municipio.
+
+**Layer 2 — Municipios**
+Población actualizada con CONAPO.
+
+**Layer 1 — Estados**
+Agregación estatal y metadatos AGEEML.
+
+## Estructura del Repositorio
 
 
