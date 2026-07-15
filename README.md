@@ -24,7 +24,7 @@ Estos datos se utilizan para enriquecer tabla Boundaries (delimitacion de coloni
 
 ### Índice de Documentación
 
-[Importar INEGI Censo 2020 (nivel localidad)](docs/01_Importar_INEGI_Censo_2020 (nivel localidad).md)   
+[Importar INEGI Censo 2020 (nivel localidad)](docs/01_Importar_INEGI_Censo_2020_nivel_localidad.md)   
 
 - Población total
 - Viviendas totales
