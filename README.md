@@ -33,7 +33,7 @@ Estos datos se utilizan para enriquecer tabla Boundaries (delimitacion de coloni
 - Normalización de CVEGEO y claves territoriales
 - Uso para enriquecer Boundaries con población por localidad
 
-[02 Importar_INEGI_Censo_2020_AGEB](docs/03_Importar_INEGI_Censo_2020_AGEB.md)   
+[02 Importar_INEGI_Censo_2020_AGEB](docs/02_Importar_INEGI_Censo_2020_AGEB.md)   
 
 - Población por AGEB
 - Viviendas totales y ocupadas
@@ -41,7 +41,7 @@ Estos datos se utilizan para enriquecer tabla Boundaries (delimitacion de coloni
 - Normalización de CVEGEO
 - Uso para interpolación AGEB ↔ colonia (NSE y población)
 
-[03 Importar_Catalogo de Localidades_2025](docs/02_Importar_Localidades_2025.md)   
+[03 Importar_Catalogo de Localidades_2025](docs/03_Importar_Localidades_2025.md)   
 
 - Nombres oficiales de localidades
 - Claves de municipio y estado
