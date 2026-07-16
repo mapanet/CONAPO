@@ -69,26 +69,28 @@ In the **right panel**, select:
 3. **Vivienda** → *Total de viviendas*  
 4. **Vivienda** → *Total de viviendas habitadas*  
 
-Repeat for All 32 States:
+Repetir para los 32 estados:
 
-1. In the **left panel**, select a state (example: *Aguascalientes*).  
-2. Bottom‑right → click **Generar Consulta** (Generate Query).  
-3. Bottom‑center → click **Exportar a → CSV**.  
-4. Save the file into:
+1. En el panel izquierdo, selecciona un estado (ejemplo: Aguascalientes).
+2. En la parte inferior derecha → haz clic en Generar Consulta.
+3. En la parte inferior central → haz clic en Exportar a → CSV.
+4. Guarda el archivo en:
 
+```code
 D:\AXSI\INEGI\Censo_2020\Tabulados_AGEB_Localidad  
+```
 
-5. Click the browser **Back** button and select the next state.
+5. Haz clic en el botón Regresar del navegador y selecciona el siguiente estado.
 
-Example results:
+Ejemplo de resultados:
 
 [<img src="/docs/images/Censo_2020_3.png" width="1000">](/docs/images/Censo_2020_3.png)
 
 ---
 
-## ✔ Verify All 32 Files Are Downloaded
+## ✔ Verifica que los archivos de los 32 estados han sido descargados
 
-| File Name |
+| Archivo |
 |-----------|
 | ITER2020 - 01 Aguascalientes.csv |
 | ITER2020 - 02 Baja California.csv |
@@ -125,20 +127,20 @@ Example results:
 
 ---
 
-# 2 — Concatenate All Files into One Clean CSV (TSV)
+# 2 — Concatenar Todos los Archivos en un Solo CSV (TSV) Limpio
 
-### Purpose
-Combine all 32 state CSV files into a single **UTF‑8 (no BOM)**, **TAB‑separated** file ready for SQL Server bulk import.
+### Propósito
+Combinar los 32 archivos CSV de los estados en un solo archivo **UTF‑8 (sin BOM)**, separado por **TAB**, listo para importación masiva en SQL Server.
 
-### Output File
+### Archivo de Salida
 
-ITER2020_ALL_TAB.csv
+`ITER2020_ALL_TAB.csv`
 
-- Encoding: **UTF‑8 no BOM**  
-- Separator: **TAB**  
-- Replace all `*` with empty string (NULL in SQL)
+- Codificación: **UTF‑8 no BOM**  
+- Separador: **TAB**  
+- Reemplazar todos los `*` por cadena vacía (NULL en SQL)
 
-### Python Script
+### Script en Python
 
 ```python
 import pandas as pd
@@ -170,25 +172,21 @@ merged.to_csv(output_path, index=False, sep="\t")
 print("Merged file saved to:", output_path)
 ```
 
-### Full Phyton Script
-
-[Concatenate_ALL_ITER2020.py](../scripts/Concatenate_ALL_ITER2020.py)
-
 ---
 
-## Convert Latutude HHMMSS to decimal, add CVEGEO
+## Convertir Latitud HHMMSS a decimal y agregar CVEGEO
 
-### Output File
+### Archivo de salida
 
-ITER2020_ALL_COORDS_TAB.csv
+`ITER2020_ALL_COORDS_TAB.csv`
 
-- Encoding: **UTF‑8 no BOM**  
-- Separator: **TAB**  
-- Replace any `*` with empty string (NULL in SQL)
-- Converts Latitude and Longitude from HHMMSS to decinal ESPG:4326
-- Checks Altitude to be integer (some fields have dash like "00-2"
+- Codificación: **UTF‑8 no BOM**  
+- Separador: **TAB**  
+- Reemplazar cualquier `*` por cadena vacía (NULL en SQL)
+- Convierte Latitud y Longitud de formato HHMMSS a decimal EPSG:4326
+- Verifica que Altitud sea un entero (algunos campos tienen guiones como "00-2")
 
-### Python Script
+### Script en Python
 
 ```python
 import csv
@@ -274,27 +272,20 @@ if __name__ == "__main__":
     process_file()
 ```
 
-### Full Phyton Script
+### Archivo de salida esperado
 
-The full script used to concatenate all 32 state files into a single clean CVS (TSV) is available here:
+Después de ejecutar el script, deberías obtener:
 
-[convert_coords.py](../scripts/convert_coords.py)
+'ITER2020_ALL_COORDS_TAB.csv'
 
+Puedes abrir el archivo con **EditPad Pro, Notepad++** o **VS Code** y verificar:
 
-### Expected Output File
+- Codificación: **UTF‑8 (No BOM)**
+- Separador: **TAB**
+- Sin asteriscos (`*`)
+- Todas las filas alineadas y completas
 
-After running the script, you should have:
-
-ITER2020_ALL_COORDS_TAB.csv
-
-You can open the file using **EditPad Pro**, **Notepad++**, or **VS Code** and verify:
-
-- Encoding: **UTF‑8 (No BOM)**
-- Separator: **TAB**
-- No asterisks (`*`)
-- All rows aligned and complete
-
-Example rows:
+Ejemplo de filas:
 
 | CVEGEO  | ENTIDAD | NOM_ENT        | MUN | NOM_MUN      | LOC | NOM_LOC                        | LATITUD |  LONGITUD | ALTITUD | POBTOT | VIVTOT | TVIVHAB |
 |---------|---------|----------------|-----|--------------|-----|--------------------------------|---------|-----------|---------|--------|--------|---------|
@@ -310,13 +301,13 @@ Example rows:
 
 ---
 
-# 4 — Import CSV into SQL Server
+# 4 — Importar el CSV en SQL Server
 
-Create table INEGI_Censo_2020 in MS SQL 2022.    
+Crear la tabla `INEGI_Censo_2020` en MS SQL Server 2022.    
 
 ```sql
 ----------------------------------------------------------
--- 20.4 — Import CSV into SQL
+-- 4 — Import CSV into SQL
 --
 -- Create table INEGI_Censo_2020 (Census 2020 by Locality)
 ----------------------------------------------------------
@@ -359,17 +350,17 @@ WITH (
 GO
 ```
 
-#### Expected results
+#### Resultado esperado
 
-(189432 rows affected)      
+(189432 rows)      
 
 
-Test query:
+Consulta de prueba:
 
 ```sql
-------------------------
--- List first 10 records
-------------------------
+-----------------------------------
+-- Listar los primeros 10 registros
+-----------------------------------
 SELECT        TOP (10) CVEGEO, ENTIDAD, NOM_ENT, MUN, NOM_MUN, LOC, NOM_LOC, LATITUD, LONGITUD, ALTITUD, POBTOT, VIVTOT, TVIVHAB FROM dbo.INEGI_Censo_2020
 ```
 
