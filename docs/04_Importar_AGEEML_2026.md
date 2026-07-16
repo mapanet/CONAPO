@@ -1,20 +1,20 @@
 # 04 — INEGI AGEEML 2026
 
-This dataset contains the catalogs of codes and names of State, Municipalty and Locality and coordinates latitude, longitude.
-Is used on some processes where the data comes with without names and/or georeference.
+Este dataset contiene los **catálogos oficiales de códigos y nombres de Entidad, Municipio y Localidad**, además de las **coordenadas de latitud y longitud** para cada localidad.   
+Se utiliza en procesos donde los datos llegan sin nombres, **sin claves completas o sin georreferencia**, y sirve como tabla maestra para normalizar y enriquecer información territorial.
 
-## Resulting Table: `INEGI_AGEEML_2026`
+## Tabla resultante: `INEGI_AGEEML_2026`
 
-| Column | Type | Notes |
+| Columna | Tipo | Notas |
 |--------|------|--------|
-| CVEGEO | varchar(16) | **Primary Key** |
-| Status | nvarchar(20) | null or Baja (deleted) |
+| CVEGEO | varchar(16) | **Llabe principal** |
+| Status | nvarchar(20) | null or `Baja` (fuera de servicio) |
 | ISO | varchar(2) | 'MX' (ISO country code) |
 | Country | nvarchar](20) | 'Mexico'
 | State | nvarchar(85) ||
 | Municipality | nvarchar(85) ||
-| City | nvarchar(110) | Locality |
-| Type | varchar](1) | 'U' or 'R' (Urban o Rural |
+| City | nvarchar(110) | Localidad |
+| Type | varchar](1) | 'U' or 'R' (Urbana o Rural |
 | Latitude | decimal(15, 6) |  ESPG:4023 |
 | Longitude | decimal(15, 6) | ESPG:4023 |
 | Altitude | int ||
@@ -22,32 +22,33 @@ Is used on some processes where the data comes with without names and/or georefe
 | geog | geography | Point ESPG:4023 |
 | Population | int ||
 | Dwellings | int |
-| CVE_ENT | varchar(2) | State code |
-| CVE_MUN | varchar(3) | Municipality code |
-| CVE_LOC | varchar(4) | Locality code (city) |
-| State_Ant	| nvarchar(85) | original State name (will rename some state names with short names ) |
-| Municipality_Ant | nvarchar(85) | original Municipality name |
-| City_Ant | nvarchar(110) | original City name |
-## Working folders:
+| CVE_ENT | varchar(2) | Código Estado |
+| CVE_MUN | varchar(3) | Código Municipio |
+| CVE_LOC | varchar(4) | Código Localidad |
+| State_Ant	| nvarchar(85) | nombre original de Estado (para almacenar nombre si renombrado/abreviado) |
+| Municipality_Ant | nvarchar(85) | Nombre Municipio original |
+| City_Ant | nvarchar(110) | Nombre Localidad original |
+
+## Carpetas de trabajo:
 
 D:\INEGI\AGEEML_2026   
 D:\INEGI\AGEEML_2026\Download   
 
 ---
 
-# 1 — Download AGEEML 2026 Catalogs
+# 1 — Descargar Catálogo AGEEML 2026
 
 - **URL:**  [https://www.inegi.org.mx/app/ageeml/#](https://www.inegi.org.mx/app/ageeml/#)   
-- **Section:** Catalogos completos (complete catalogs)   
-- **Catalog:** Catálogo de Localidades Nacional ( 296704 Localidades) Fecha de corte: 2026/04   
-- **Detail:** Minúscula con acento, incluye bajas (ProperCase with accents, included old deleted   
+- **Sección:** Catalogos completos (complete catalogs)   
+- **Catálogo principal:** Catálogo de Localidades Nacional ( 296704 Localidades) Fecha de corte: 2026/04   
+- **Detalle del archivo:** Minúscula con acento, incluye bajas (ProperCase with accents, included old deleted   
 
 [<img src="/docs/images/INEGI_AGEEEML.png" width="1000">](/docs/images/INEGI_AGEEEML.png)
 
-Download file will be: 
+Archivo descargado: 
 
-**Directory:** D:\INEGI\AGEEML_2026\Download\   
-**File name:** min_con_acento_baja.zip
+**Directorio:** `D:\INEGI\AGEEML_2026\Download\`   
+**Archivo:** min_con_acento_baja.zip
 
 Extract from ZIP to working directory:   
 
@@ -55,31 +56,43 @@ D:\INEGI\AGEEML_2026\AGEEML_202651313653_utf.csv
 
 
 
-# 2 — Convert to CSV before the import to SQL 
+# 2 — Convertir a CSV antes de importar a SQL 
 
-### Purpose
-Convert to TAB delimited, rename fields for clarity, replace - and * to null as they are "N/A" and get rid of fields we dont need.
+### Propósito
 
-We will use a Power Shell script to generates a clean CSV (TSV) as we need to delete columns like:
+El catálogo AGEEML 2026 viene en un archivo ZIP con un CSV que contiene muchos campos que no necesitamos y valores como `-` y `*` que representan **N/A**.
+Antes de importar a SQL Server, generamos un archivo TSV (TAB‑delimited) limpio, con:
 
-- NOM_ABR (Abbreviated stat name )
-- LATITUD (HH MM SS)
-- LONGITUDE  (HH MM SS)
-- CVE_CARTA (INEGI map reference)
+- `NOM_ABR` — Nombre abreviado de la entidad
+- `LATITUD` (HH MM SS)
+- `LONGITUDE`  (HH MM SS)
+- `CVE_CARTA` (Referencia de mapa INEGI)
 
-AGGEEML Catalogs use asterisk (*) and dash (-) in Population and Dwelings when there is no info ("N/A") so we will rbeplace then by NOTHING so when we import they become NULL
+AGEEML usa: 
 
-### Script
+- '*`
+- `-`
 
-The full script used to generate a single clean CVS (TSV) is available here:
+En campos como Población y Viviendas, indicando que no existe información.   
+En SQL Server, estos deben convertirse en: **NULL**
+
+
+### Script utilizado
+
+El script completo que realiza esta limpieza está disponible aquí:
 
 [Convert_to_CSV_TSV.ps1](../scripts/Convert_to_CSV_TSV.ps1)
 
-Process is slow (about 1 hour) but will save a clean file ready to import: 
+Este script:
+
+- Lee el CSV original del catálogo AGEEML
+- Procesa cada fila
+- Normaliza valores
+- Exporta un TSV limpio y consistente
 
 **D:\INEGI\AGEEML_2026\AGEEML_2026.tsv**
 
-Example rows:
+Columnas de ejemplo:
 
 |CVEGEO|Status|CVE_ENT|State|CVE_MUN|Municipality|CVE_LOC|City|Type|Latitude|Longitude|Altitude|Population|Population_M|Population_F|Occupied_Dwellings|
 |------|------|-------|-----|-------|------------|-------|----|----|--------|---------|--------|----------|------------|------------|------------------|
@@ -99,11 +112,29 @@ Example rows:
 
 
 
-# 3 — Create **INEGI_AGEEML_2026_Staging**   
+# 3 — Crear INEGI_AGEEML_2026_Staging e importar datos   
+
+Después de generar el archivo limpio **TSV** (ver sección anterior), el siguiente paso es crear la tabla staging en SQL Server.
+Esta tabla sirve como área temporal para:
+
+- Cargar el archivo TSV sin transformaciones complejas
+- Validar tipos, longitudes y valores nulos
+- Confirmar que los códigos ENTIDAD, MUN y LOC están completos
+- Verificar que LAT_DEC y LON_DEC son numéricos
+- Preparar la generación del CVEGEO (9 dígitos) en la tabla final
+
+La tabla staging siempre debe ser:
+
+- Simple
+- Sin índices
+- Sin constraints
+- Sin claves primarias
+
+Esto garantiza que el BULK INSERT sea rápido y sin bloqueos.
 
 ```sql
 -----------------------------------------
--- Create table INEGI_AGEEML_2026_Staging
+-- Crear INEGI_AGEEML_2026_Staging 
 -----------------------------------------
 DROP TABLE IF EXISTS dbo.INEGI_AGEEML_2026_Staging;
 GO
@@ -144,27 +175,26 @@ WITH (
 GO
 ```
 
-### Expected reult
+### Resultado esperado
 
-(361168 rows affected)   
-All records uploaded
-
+(361168 rows)   
 
 
-# 4 — Create final **INEGI_AGEEML_2026**   
+# 4 — Crear tabla final INEGI_AGEEML_2026   
 
-We will include in the final table some extra fields to save original names since we wil normalize some of them:  
+La tabla final **INEGI_AGEEML_2026** es la versión depurada y normalizada del catálogo AGEEML 2026.  
+A diferencia de la tabla staging, esta tabla:  
 
-- State_Ant
-- Municipality_Ant
-- City_Ant
-
-Will include the geom (geometry) and geog (geography) to store Latitude and Longitude for spatial needs.
+- Incluye campos adicionales para conservar los nombres originales antes de normalizar.
+- Genera el CVEGEO (9 dígitos).
+- Incluye geometry y geography para usos espaciales.
+- Aplica tipos de datos definitivos y restricciones mínimas.
+- Está lista para integrarse con Boundaries Layer 5 y Layer 6 del pipeline NSE.
 	
 ```sql
----------------------------------
--- Create table INEGI_AGEEML_2026
----------------------------------
+--------------------------------------
+-- Crear tabla final INEGI_AGEEML_2026  
+--------------------------------------
 DROP TABLE IF EXISTS dbo.INEGI_AGEEML_2026;
 GO
 
@@ -207,11 +237,11 @@ GO
 ```
 
 
-# 5 — Copy Data from Staging table
+# 5 — Copiar datos desde la tabla Staging
 
 ```sql
 ------------------------------------------
--- Copy staging table to INEGI_AGEEML_2026
+-- Copiar datos desde la tabla Staging
 ------------------------------------------
 INSERT INTO INEGI_AGEEML_2026 (
     CVEGEO,
@@ -251,12 +281,12 @@ SELECT
 FROM INEGI_AGEEML_2026_Staging;
 ```
 
-#### Expected results
+#### Resultados esperados
 
 (361168 rows affected)   
-All records copied
+Todos los registros copiados
 
-### Finally drop staging table
+### Finalmente borra tabla staging
 
 ```sql
 DROP TABLE IF EXISTS dbo.INEGI_AGEEML_2026_Staging;
@@ -264,11 +294,11 @@ GO
 ```
 
 
-# 6 — Normalize names in final table
+# Copiar nombres originales a campos `_Ant`
 
 ```sql
 ---------------------------------------------------------------------------------
--- Copy original names to _Ant to keep original naemes as we will use short names
+-- Copiar nombres originales a campos `_Ant`
 ---------------------------------------------------------------------------------
 
 Update INEGI_AGEEML_2026 set 
@@ -285,7 +315,7 @@ Update INEGI_AGEEML_2026 set State = 'Michoacán' WHERE State = 'Michoacán de O
 Update INEGI_AGEEML_2026 set State = 'Veracruz' WHERE State = 'Veracruz de Ignacio de la Llave' AND CVE_ENT = '30'
 ```
 
-#### Expect results
+#### Resultados esperados
 
 (12492 rows affected)   
 (14318 rows affected)   
@@ -293,20 +323,23 @@ Update INEGI_AGEEML_2026 set State = 'Veracruz' WHERE State = 'Veracruz de Ignac
 
 
 
-# 7 — Create geom (geometry) and geog (geography) from latitude, longitude
+# 7 — 7 — Crear geom (geometry) y geog (geography) a partir de latitude y longitude
 
-We will use spatial intersections later so and have spatial index
+Para permitir intersecciones espaciales, validaciones territoriales, cruces con Boundaries Layer 5 y Layer 6, y consultas geoespaciales en SQL Server, es necesario convertir las coordenadas LAT_DEC y LON_DEC en objetos espaciales:
+
+- geometry → operaciones cartesianas
+- geography → operaciones geodésicas (curvatura de la Tierra)
 
 ```sql
 --------------------------------------------------------------------------------
--- Create geom as POINT (geometry, SRID 4326) from Latitude and Longitude values
+-- Create geom como POINT (geometry, SRID 4326) desde Latitude y Longitude
 -- geometry::Point(X,Y,4326) → X = Lon, Y = Lat
 --------------------------------------------------------------------------------
 UPDATE INEGI_AGEEML_2026
 SET geom = geometry::Point(Longitude, Latitude, 4326);
 
 ----------------
--- Validate geom
+-- Validar geom
 ----------------
 SELECT CVEGEO as CVGGEO_Invalid
 FROM INEGI_AGEEML_2026
@@ -315,14 +348,14 @@ WHERE geom.STIsValid() = 0;
 
 #### Expect results
 
-361168 geom (geometries) created   
-No CVEGEO_Invalid   
+361168 geom (geometrias) creadas   
+Ningún CVEGEO_Invalid   
 
-If any invalid, check why:
+Si alguna geometría es inválida, checar porque:
 
 ```sql
 ---------------------------
--- If any invalid, show why
+-- Si alguna geometría es inválida, checar porque
 ---------------------------
 SELECT CVEGEO, geom.STIsValid(), geom.IsValidDetailed()
 FROM INEGI_AGEEML_2026
@@ -333,44 +366,44 @@ WHERE geom.STIsValid() = 0;
 
 ```sql
 ---------------------------------------------
--- Copy geom (geometries) to geog (geography)
+-- Copy geom (geometry) to geog (geography)
 ---------------------------------------------
 UPDATE INEGI_AGEEML_2026
 SET geog = geography::Point(Latitude, Longitude, 4326);
 
 ----------------
--- Validate geog
+-- Valida geog
 ----------------
 SELECT CVEGEO As CVEGEO_Invalid
 FROM INEGI_AGEEML_2026
 WHERE geog.STIsValid() = 0;
 ```
 
-#### Expect results
+#### Resultados esperados
 
-361168 geog (geography geometries) created   
+361168 geog (geography geometrías) creadas
 No CVEGEO_Invalid   
 
 
 
 # 8 — Final Validations
 
-✔ Validate Record Count
+✔Validate Record Count
 
 ```sql
-----------------
--- Count records
-----------------
+----------------------
+-- Conteo de registros
+----------------------
 SELECT COUNT(*) AS Records_Written
 FROM INEGI_AGEEML_2026;
 ```
 
-#### Expected results
+#### Resultados esperados
 
-Records_Written: 361168
-This confirms that all were successfully imported (same count as in the CSV).
+Registros: 361168
+Esto confirma de que todos los egistros del archivo CSV fueron importados.
 
-### ✔ Visualize the data
+### ✔ Visualizar los datos
 
 ```sql
 SELECT TOP 20 
