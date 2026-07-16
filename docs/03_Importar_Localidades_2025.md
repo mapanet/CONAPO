@@ -1,35 +1,35 @@
-# 03 INEGI Localidades 2025 (Localities Polygons)
+# 03 INEGI Localidades 2025 (Polígonos de Localidades)
 
-This document describes the process to import the **INEGI Localidades 2025** dataset from **"Información Topográfica a escala 1:50,000 y sus actualizaciones"**, which contains the official polygon boundaries of localities (*cities*) and other human settlements in Mexico.  
-These geometries are used to build **Boundaries Layer 5**, where the AMAI Socioeconomic Level (NSE) is calculated for each locality.
+Este documento describe el proceso para importar el dataset **INEGI Localidades 2025** proveniente de **“Información Topográfica a escala 1:50,000 y sus actualizaciones”**, el cual contiene los polígonos oficiales de localidades (ciudades) y otros asentamientos humanos en México.
+Estas geometrías se utilizan para construir la Capa de **Boundaries 5**, donde se calcula el **Nivel Socioeconómico AMAI (NSE)** para cada localidad.
 
-Suggested working directories  
+Directorios sugeridos  
 
-Working : D:\AXSI\INEGI\TOPO_2025  
-Download: D:\AXSI\INEGI\TOPO_2025\Download  
+Trabajo : D:\AXSI\INEGI\TOPO_2025  
+Descarga: D:\AXSI\INEGI\TOPO_2025\Download  
 
 ---
 
 ## Dataset Description
 
-**Source:** INEGI — *Información Topográfica a escala 1:50,000 y sus actualizaciones*
-**Edition (edicion):** 2025  
-**Coverage (cobertura):** 2025‑12‑31  
+**Fuente:** INEGI — *Información Topográfica a escala 1:50,000 y sus actualizaciones*
+**Edición:** 2025  
+**Ccobertura:** 2025‑12‑31  
 **Datum:** ITRF2008, Ellipsoid GRS80  
-**File type (tipo de archivo):** SHP (389.68 MB)  
-**Download URL:** [https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=702825267759](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=702825267759)
+**Tipo de archivo:** SHP (389.68 MB)  
+**URL:** [https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=702825267759](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=702825267759)
 
 ---
 
-## 1 Download data
+## 1 Descargar datos
 
-1. Open the "INEGI Información Geográfica, Medio Ambiente, Ordenamiento Territorial y Urbano" download page:  
-   [https://www.inegi.org.mx/programas/topografia/50000/#descargas](https://www.inegi.org.mx/programas/topografia/50000/#descargas)
+1. Abre la página de descarga de **INEGI Información Geográfica, Medio Ambiente, Ordenamiento Territorial y Urbano:**
 
+[https://www.inegi.org.mx/programas/topografia/50000/#descargas](https://www.inegi.org.mx/programas/topografia/50000/#descargas)
 
-File: 94551163047_s.zip
+Archivo: 94551163047_s.zip
 
-Extract: 
+Extraer: 
 
 - conjunto_de_datos
   - localidad_a.shx
@@ -38,7 +38,7 @@ Extract:
   - localidad_a.dbf
   - localidad_a.prj
 
-to:
+a:
 
 D:\AXSI\INEGI\TOPO_2025  
   
