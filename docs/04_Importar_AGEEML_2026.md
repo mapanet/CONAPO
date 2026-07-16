@@ -70,7 +70,7 @@ Antes de importar a SQL Server, generamos un archivo TSV (TAB‑delimited) limpi
 
 AGEEML usa: 
 
-- '*`
+- `*`
 - `-`
 
 En campos como Población y Viviendas, indicando que no existe información.   
